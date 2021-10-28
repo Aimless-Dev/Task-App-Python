@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block body %}
+    <div class="row">
+        <div class="col-md-5">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{url_for('add_task')}}" method="post">
+                        <div class="form-group form-floating">
+                            <input id="name" type="text" placeholder="Añadir tarea" name="task" class="form-control" required>
+                            <label for="name">Tarea</label>
+                            <br>
+                        </div>
+                        <div class="form-group form-floating">
+                            <textarea id="des" placeholder="Descripcion de tarea" name="des" class="form-control" required></textarea>
+                            <label for="des">Descripcion</label>
+                            <br>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <td>Tarea</td>
+                    <td>Descripcion</td>
+                    <td></td>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                        <tr>
+                            <td>{{ i.1 }}</td>
+                            <td>{{ i.2 }}</td>
+                            <td>
+                                <a href="/edit/{{i.0}}" class="btn btn-secondary">Editar</a>
+                                <a href="/delete/{{i.0}}" class="btn btn-danger btn-delete">Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
